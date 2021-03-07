@@ -1,3 +1,4 @@
+import 'package:bytebank/database/app_database.dart';
 import 'package:bytebank/models/transferencia.dart';
 import 'package:bytebank/screens/transferencia/formulario.dart';
 import 'package:flutter/cupertino.dart';
@@ -21,25 +22,52 @@ class ListaTransferenciasState extends State<ListaTransferencias> {
       appBar: AppBar(
         title: Text(_titulo),
       ),
-      body: ListView.builder(
-        itemCount: widget._transferencias.length,
-        itemBuilder: (context, indice) {
-          final transferencia = widget._transferencias[indice];
-          return ItemTransferencia(transferencia);
+      body: FutureBuilder<List<Transferencia>>(
+        initialData: List(),
+        future: findAll(),
+        builder: (context, snapshot) {
+          switch (snapshot.connectionState) {
+            case ConnectionState.none:
+              break;
+            case ConnectionState.waiting:
+              return Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    CircularProgressIndicator(),
+                    Text('Loading'),
+                  ],
+                ),
+              );
+              break;
+            case ConnectionState.active:
+              break;
+            case ConnectionState.done:
+              final List<Transferencia> transferencias = snapshot.data;
+              return ListView.builder(
+                itemCount: transferencias == null ? 0 : transferencias.length,
+                itemBuilder: (context, indice) {
+                  final transferencia = transferencias[indice];
+                  return ItemTransferencia(transferencia);
+                },
+              );
+              break;
+            default:
+          }
+          return Text("Unknown Error");
         },
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () {
-          final Future<Transferencia> future =
-              Navigator.push(context, MaterialPageRoute(builder: (context) {
-            return FormularioTransferencia();
-          }));
-          future.then((transferenciaRecebida) {
-            if (transferenciaRecebida != null) {
-              setState(() => widget._transferencias.add(transferenciaRecebida));
-            }
-          });
+          Navigator.of(context)
+              .push(
+                MaterialPageRoute(
+                  builder: (context) => FormularioTransferencia(),
+                ),
+              )
+              .then((value) => setState(() {}));
         },
       ),
     );

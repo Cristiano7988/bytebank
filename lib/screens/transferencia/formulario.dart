@@ -1,4 +1,5 @@
 import 'package:bytebank/components/editor.dart';
+import 'package:bytebank/database/app_database.dart';
 import 'package:bytebank/models/transferencia.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -60,8 +61,9 @@ class FormularioTransferenciaState extends State<FormularioTransferencia> {
     final double valor = double.tryParse(_controladorCampoValor.text);
 
     if (numeroConta != null && valor != null) {
-      final transferenciaCriada = Transferencia(valor, numeroConta);
-      Navigator.pop(context, transferenciaCriada);
+      final Transferencia transferenciaCriada =
+          Transferencia(0, valor, numeroConta);
+      save(transferenciaCriada).then((id) => Navigator.pop(context));
     }
   }
 }
