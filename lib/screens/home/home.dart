@@ -1,13 +1,16 @@
+import 'package:bytebank/models/cliente.dart';
+import 'package:bytebank/screens/autencticacao/login.dart';
 import 'package:bytebank/screens/transferencia/lista.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class Dashboard extends StatelessWidget {
+class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("DashBoard"),
+        title: Text("Home"),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -16,6 +19,29 @@ class Dashboard extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Image.asset("./images/bytebank_logo.png"),
+          ),
+          Padding(
+            padding: EdgeInsets.all(8),
+            child: Consumer<Cliente>(
+              builder: (context, cliente, child) {
+                if (cliente.nome != null) {
+                  return Text(
+                    "Olá, ${cliente.nome.split(" ")[0]}!",
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  );
+                }
+                return Text(
+                  "Olá!",
+                  style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                  ),
+                );
+              },
+            ),
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
@@ -53,6 +79,21 @@ class Dashboard extends StatelessWidget {
               ),
             ),
           ),
+          Padding(
+            padding: EdgeInsets.all(8),
+            child: RaisedButton(
+              onPressed: () {
+                Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Login(),
+                    ),
+                    (route) => false);
+              },
+              color: Colors.green,
+              child: Text("Sair"),
+            ),
+          )
         ],
       ),
     );

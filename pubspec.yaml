@@ -30,6 +30,11 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
+  brasil_fields: ^0.6.0
+  date_time_picker: ^1.1.0
+  provider:
+  image_picker:
+  flux_validator_dart:
 
 dev_dependencies:
   flutter_test:
