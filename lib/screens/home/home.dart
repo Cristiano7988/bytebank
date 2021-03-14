@@ -12,89 +12,91 @@ class Home extends StatelessWidget {
       appBar: AppBar(
         title: Text("Home"),
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Image.asset("./images/bytebank_logo.png"),
-          ),
-          Padding(
-            padding: EdgeInsets.all(8),
-            child: Consumer<Cliente>(
-              builder: (context, cliente, child) {
-                if (cliente.nome != null) {
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Image.asset("./images/bytebank_logo.png"),
+            ),
+            Padding(
+              padding: EdgeInsets.all(8),
+              child: Consumer<Cliente>(
+                builder: (context, cliente, child) {
+                  if (cliente.nome != null) {
+                    return Text(
+                      "Olá, ${cliente.nome.split(" ")[0]}!",
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    );
+                  }
                   return Text(
-                    "Olá, ${cliente.nome.split(" ")[0]}!",
+                    "Olá!",
                     style: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.bold,
                     ),
                   );
-                }
-                return Text(
-                  "Olá!",
-                  style: TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold,
-                  ),
-                );
-              },
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Material(
-              color: Theme.of(context).primaryColor,
-              child: InkWell(
-                onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => ListaTransferencias(),
-                  ));
                 },
-                child: Container(
-                  padding: EdgeInsets.all(8.0),
-                  height: 100,
-                  width: 150,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Icon(
-                        Icons.people,
-                        color: Colors.white,
-                        size: 32,
-                      ),
-                      Text(
-                        "Contatos",
-                        style: TextStyle(
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Material(
+                color: Theme.of(context).primaryColor,
+                child: InkWell(
+                  onTap: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => ListaTransferencias(),
+                    ));
+                  },
+                  child: Container(
+                    padding: EdgeInsets.all(8.0),
+                    height: 100,
+                    width: 150,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Icon(
+                          Icons.monetization_on_outlined,
                           color: Colors.white,
-                          fontSize: 16.0,
+                          size: 32,
                         ),
-                      ),
-                    ],
+                        Text(
+                          "Transferências",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16.0,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-          Padding(
-            padding: EdgeInsets.all(8),
-            child: RaisedButton(
-              onPressed: () {
-                Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => Login(),
-                    ),
-                    (route) => false);
-              },
-              color: Colors.green,
-              child: Text("Sair"),
-            ),
-          )
-        ],
+            Padding(
+              padding: EdgeInsets.all(8),
+              child: RaisedButton(
+                onPressed: () {
+                  Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Login(),
+                      ),
+                      (route) => false);
+                },
+                color: Colors.green,
+                child: Text("Sair"),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

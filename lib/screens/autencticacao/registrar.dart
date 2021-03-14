@@ -62,6 +62,7 @@ class Registrar extends StatelessWidget {
               return Padding(
                 padding: EdgeInsets.only(top: 20),
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     RaisedButton(
                       onPressed: onStepContinue,
@@ -109,8 +110,10 @@ class Registrar extends StatelessWidget {
   }
 
   _salvarStep3(context) {
-    if (_formUserAuth.currentState.validate()) {
+    if (_formUserAuth.currentState.validate() &&
+        Provider.of<Cliente>(context, listen: false).imagemSelfie != null) {
       FocusScope.of(context).unfocus();
+      Provider.of<Cliente>(context, listen: false).imagemSelfie = null;
 
       Navigator.pushAndRemoveUntil(
         context,
@@ -214,13 +217,11 @@ class Registrar extends StatelessWidget {
                 controller: _cepController,
                 maxLength: 10,
                 keyboardType: TextInputType.number,
-                validator: (value) {
-                  if (value.length < 10) return 'Cep inválido';
-                  return null;
-                },
+                validator: (value) =>
+                    Validator.cep(value) ? 'Cep inválido' : null,
                 inputFormatters: [
                   FilteringTextInputFormatter.digitsOnly,
-                  CepInputFormatter(),
+                  CepInputFormatter(ponto: false),
                 ],
               ),
               DropdownButtonFormField(
@@ -330,7 +331,6 @@ class Registrar extends StatelessWidget {
                   "Para prosseguir com o seu cadastro é necessário uma Selfie",
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    color: Colors.red,
                   ),
                 ),
                 SizedBox(height: 15),
