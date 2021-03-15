@@ -4,6 +4,7 @@ import 'package:brasil_fields/brasil_fields.dart';
 import 'package:bytebank/models/cliente.dart';
 import 'package:bytebank/screens/home/home.dart';
 import 'package:date_time_picker/date_time_picker.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -121,6 +122,14 @@ class Registrar extends StatelessWidget {
           builder: (context) => Home(),
         ),
         (route) => false,
+      );
+
+      print(_emailController.text);
+
+      final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+      firebaseAuth.createUserWithEmailAndPassword(
+        email: _emailController.text,
+        password: _senhaController.text,
       );
     }
   }

@@ -30,8 +30,9 @@ class Login extends StatelessWidget {
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Padding(
-                        padding: const EdgeInsets.all(20),
-                        child: _construirFormulario(context)),
+                      padding: const EdgeInsets.all(20),
+                      child: _construirFormulario(context),
+                    ),
                   ),
                 ),
               ],
