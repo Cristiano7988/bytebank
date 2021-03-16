@@ -4,5 +4,4 @@ A new Flutter project.
 
 # Instruções de acesso:
 
-Email: cliente@email.com
-Senha: abc123
+Cadastre o usuário para logar no app.
