@@ -1,5 +1,5 @@
-import 'package:brasil_fields/brasil_fields.dart';
 import 'package:bytebank/screens/home/home.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -80,6 +80,7 @@ class Login extends StatelessWidget {
             ),
             maxLength: 15,
             keyboardType: TextInputType.text,
+            obscureText: true,
             controller: _senhaController,
           ),
           SizedBox(height: 30),
@@ -95,21 +96,7 @@ class Login extends StatelessWidget {
               child: Text('LOGAR'),
               onPressed: () {
                 if (_formKey.currentState.validate()) {
-                  if (_emailController.text == 'cliente@email.com' &&
-                      _senhaController.text == 'abc123') {
-                    Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => Home(),
-                        ),
-                        (route) => false);
-                  } else {
-                    exibirAlerta(
-                      context: context,
-                      titulo: 'ATENÇÃO',
-                      content: "Email ou Senha incorretos!",
-                    );
-                  }
+                  _singIn(context);
                 }
               },
             ),
@@ -141,5 +128,27 @@ class Login extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  _singIn(context) async {
+    try {
+      await FirebaseAuth.instance
+          .signInWithEmailAndPassword(
+              email: _emailController.text, password: _senhaController.text)
+          .then((user) {
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+              builder: (context) => Home(),
+            ),
+            (route) => false);
+      });
+    } on FirebaseAuthException catch (erro) {
+      exibirAlerta(
+        context: context,
+        titulo: 'ATENÇÃO',
+        content: "Email ou Senha incorretos!",
+      );
+    }
   }
 }
