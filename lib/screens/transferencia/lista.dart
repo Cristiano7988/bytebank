@@ -1,4 +1,4 @@
-import 'package:bytebank/database/app_database.dart';
+import 'package:bytebank/database/dao/transferencia_dao.dart';
 import 'package:bytebank/models/transferencia.dart';
 import 'package:bytebank/screens/transferencia/formulario.dart';
 import 'package:flutter/cupertino.dart';
@@ -16,6 +16,7 @@ class ListaTransferencias extends StatefulWidget {
 }
 
 class ListaTransferenciasState extends State<ListaTransferencias> {
+  final TransferenciaDao _dao = TransferenciaDao();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,7 +25,7 @@ class ListaTransferenciasState extends State<ListaTransferencias> {
       ),
       body: FutureBuilder<List<Transferencia>>(
         initialData: List(),
-        future: findAll(),
+        future: _dao.findAll(),
         builder: (context, snapshot) {
           switch (snapshot.connectionState) {
             case ConnectionState.none:
